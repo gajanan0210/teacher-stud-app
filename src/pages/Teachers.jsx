@@ -4,7 +4,7 @@ import toast from 'react-hot-toast';
 import ConfirmDialog from '../components/ConfirmDialog';
 import ProfileModal from '../components/ProfileModal';
 
-function Teachers({ teachers, setTeachers }) {
+function Teachers({ teachers, setTeachers, courses }) {
   const [showForm, setShowForm] = useState(false);
   const [selectedTeacher, setSelectedTeacher] = useState(null);
   const [confirmDialog, setConfirmDialog] = useState({ isOpen: false, data: null });
@@ -182,6 +182,57 @@ function Teachers({ teachers, setTeachers }) {
           onUpdate={handleUpdate}
           type="teacher"
           fields={teacherFields}
+          additionalContent={
+            <div style={{ marginTop: '2rem' }}>
+              <h3 style={{ fontSize: '1.5rem', marginBottom: '1rem', color: 'var(--text-primary)' }}>
+                Assigned Courses
+              </h3>
+              {courses.filter(c => c.teacherId === selectedTeacher.id).length === 0 ? (
+                <div style={{ 
+                  padding: '2rem', 
+                  textAlign: 'center', 
+                  background: 'var(--card-bg)', 
+                  borderRadius: '12px',
+                  border: '2px dashed var(--border-color)'
+                }}>
+                  <p style={{ color: 'var(--text-secondary)', fontSize: '1.1rem' }}>
+                    No courses assigned yet
+                  </p>
+                </div>
+              ) : (
+                <div style={{ display: 'grid', gap: '1rem' }}>
+                  {courses
+                    .filter(c => c.teacherId === selectedTeacher.id)
+                    .map(course => (
+                      <div 
+                        key={course.id}
+                        style={{
+                          padding: '1.25rem',
+                          background: 'var(--card-bg)',
+                          borderRadius: '12px',
+                          border: '1px solid var(--border-color)',
+                          display: 'flex',
+                          justifyContent: 'space-between',
+                          alignItems: 'center'
+                        }}
+                      >
+                        <div>
+                          <h4 style={{ fontSize: '1.2rem', marginBottom: '0.5rem', color: 'var(--text-primary)' }}>
+                            {course.name}
+                          </h4>
+                          <p style={{ color: 'var(--text-secondary)', fontSize: '0.95rem' }}>
+                            {course.code}
+                          </p>
+                        </div>
+                        <span className="badge badge-warning" style={{ fontSize: '1rem', padding: '0.5rem 1rem' }}>
+                          {course.credits} Credits
+                        </span>
+                      </div>
+                    ))}
+                </div>
+              )}
+            </div>
+          }
         />
       )}
 

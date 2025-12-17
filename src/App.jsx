@@ -166,7 +166,7 @@ function App() {
                   />
                 } 
               />
-              <Route path="/teachers" element={<Teachers teachers={teachers} setTeachers={setTeachers} />} />
+              <Route path="/teachers" element={<Teachers teachers={teachers} setTeachers={setTeachers} courses={courses} />} />
               <Route 
                 path="/courses" 
                 element={
